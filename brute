@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+DWORD=$(cat $(pwd)/d_word)
+func_one ()
+{
+ for word in $DWORD
+  do
+   echo $word
+ done
+}
+#
+func_two () 
+{
+	for A in $DWORD
+	 do
+	  for B  in $DWORD
+	   do
+	 	echo $A$B
+	   done
+   	 done
+}
+## - What's!?
+#func_tree ()
+#{
+#	
+#	for A in $DWORD
+#	do
+#		echo -n $A && func_one
+#	done
+#}
+ 
