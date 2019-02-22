@@ -1,24 +1,34 @@
 #!/bin/bash
 #
 DWORD=$(cat $(pwd)/d_word)
+#A=""
+#
 func_one ()
 {
- for word in $DWORD
-  do
-   echo $word
- done
+	if [[ -z "$A" ]]
+	then
+		for word in $DWORD
+		do
+			echo $word; func_two
+		done
+	else
+		for word in $DWORD
+		do
+		echo $A$word
+	done
+	fi
+
 }
 #
 func_two () 
 {
 	for A in $DWORD
-	 do
-	  for B  in $DWORD
-	   do
-	 	echo $A$B
-	   done
-   	 done
+	do
+		echo "[][$A][]"; func_one
+	done
 }
+func_one
+
 ## - What's!?
 #func_tree ()
 #{
