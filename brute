@@ -1,41 +1,47 @@
 #!/bin/bash
 #
-DWORD=$(cat $(pwd)/d_word)
-#A=""
-#
+DWORD=$(cat $(pwd)/dd_word) # Dictionary
+A="" # Starting true
+B="" # Load
+# Funciton bruteforce
 func_one ()
 {
-	if [[ -z "$A" ]]
+	if [[ -z "$A" && -z "$B" ]]
+	then
+		for word in $DWORD # Start bruteforce one word
+		do
+			echo $word
+		done
+		func_two # Start bruteforce two a words
+	elif [[ -z "$B"  ]]
 	then
 		for word in $DWORD
 		do
-			echo $word; func_two
+			echo "$A$word" 
 		done
 	else
-		for word in $DWORD
-		do
-		echo $A$word
-	done
+		for word in $DWORD 
+		do 
+			echo $B$A$word 
+		done
 	fi
-
 }
-#
+# Function 2xbruteforce 
 func_two () 
 {
 	for A in $DWORD
 	do
-		echo "[][$A][]"; func_one
+		echo "  [][$A][]"; func_one
 	done
 }
+#
+func_tree ()
+{
+	
+	for B in $DWORD
+	do
+		echo "[][][$B][][]"; func_two
+	done
+}
+#
 func_one
-
-## - What's!?
-#func_tree ()
-#{
-#	
-#	for A in $DWORD
-#	do
-#		echo -n $A && func_one
-#	done
-#}
- 
