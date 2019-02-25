@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-DWORD=$(cat $(pwd)/dd_word) # Dictionary
+# Delete temp
+rm .dns 
+DWORD=$(cat $(pwd)/d_word) # Dictionary
 A="" # Null
 B="" # Null
 # Funciton bruteforce
@@ -17,7 +19,7 @@ func_one ()
 	then
 		for word in $DWORD
 		do
-			echo "$A$word" 
+			echo $A$word 
 		done
 	else 
 		for word in $DWORD 
@@ -31,7 +33,8 @@ func_two ()
 {
 	for A in $DWORD
 	do
-		echo "  [][$A][]"; func_one # Launch second condition
+		# echo "  [][$A][]"; 
+		func_one # Launch second condition
 	done
 }
 # Funcion 3xbruteforce
@@ -41,10 +44,20 @@ func_tree ()
 	do
 		for A in $DWORD
 		do
-			echo "[][$B][][$A][]"; func_one # Launch third condition
+			# echo "[][$B][][$A][]"; 
+			func_one # Launch third condition
 		done 
 	done
 }
 #
-func_one
-func_tree
+func_brute ()
+{
+	echo -n "Enter DOMAIN: " && read DOMAIN ;
+	func_one > .dns
+	func_tree >> .dns
+	while read i
+	do 
+		echo $i.$DOMAIN # | grep "has address" 
+	done  < .dns
+}
+func_brute
