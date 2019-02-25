@@ -1,26 +1,25 @@
 #!/bin/bash
 #
 DWORD=$(cat $(pwd)/dd_word) # Dictionary
-A="" # Starting true
-B="" # Load
+A="" # Null
+B="" # Null
 # Funciton bruteforce
 func_one ()
 {
-	if [[ -z "$A" && -z "$B" ]]
+	if [[ -z "$A" && -z "$B" ]] # Start brute else A=0 and B=0
 	then
-		for word in $DWORD # Start bruteforce one word
+		for word in $DWORD # select one word
 		do
 			echo $word
 		done
-		func_two # Start bruteforce two a words
-	elif [[ -z "$B"  ]]
+		func_two # Func select two a words
+	elif [[ -z "$B"  ]] # Start 2xbrute else B!=0
 	then
 		for word in $DWORD
 		do
 			echo "$A$word" 
 		done
-		func_tree
-	else
+	else 
 		for word in $DWORD 
 		do 
 			echo $B$A$word 
@@ -32,22 +31,20 @@ func_two ()
 {
 	for A in $DWORD
 	do
-		echo "  [][$A][]"; func_one
+		echo "  [][$A][]"; func_one # Launch second condition
 	done
 }
 # Funcion 3xbruteforce
 func_tree ()
 {
-	for ((i=1; i<3; i++))
+	for B in $DWORD
 	do
-		for B in $DWORD
+		for A in $DWORD
 		do
-			for A in $DWORD
-			do
-			echo "[$i][][$B][][]"; func_two
+			echo "[][$B][][$A][]"; func_one # Launch third condition
 		done 
 	done
-done
 }
 #
 func_one
+func_tree
