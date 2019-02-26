@@ -1,30 +1,37 @@
 #!/bin/bash
 #
 # Delete temp
-rm .dns 
+rm .dns > $(pwd)/.dns
 DWORD=$(cat $(pwd)/d_word) # Dictionary
 A="" # Null
 B="" # Null
+C="" # Null
 # Funciton bruteforce
 func_one ()
 {
-	if [[ -z "$A" && -z "$B" ]] # Start brute else A=0 and B=0
+	if [[ -z "$A" && -z "$B" && -z "$C" ]] # Start brute else A=0, B=0 and C=0
 	then
 		for word in $DWORD # select one word
 		do
 			echo $word
 		done
 		func_two # Func select two a words
-	elif [[ -z "$B"  ]] # Start 2xbrute else B!=0
+	elif [[ -z "$B" && -z "$C"  ]] # Start 2xbrute else B=0 and C=0
 	then
 		for word in $DWORD
 		do
 			echo $A$word 
 		done
-	else 
+	elif [[ -z "$C" ]] # Start 3xbrute else C=0
+	then
 		for word in $DWORD 
 		do 
 			echo $B$A$word 
+		done
+	else
+		for word in $DWORD
+		do
+			echo $C$B$A$word
 		done
 	fi
 }
@@ -50,14 +57,23 @@ func_tree ()
 	done
 }
 #
+func_four ()
+{
+	for C in $DWORD
+	do
+		func_tree
+	done
+}
+#
 func_brute ()
 {
 	echo -n "Enter DOMAIN: " && read DOMAIN ;
 	func_one > .dns
 	func_tree >> .dns
+	func_four >> .dns
 	while read i
 	do 
-		echo $i.$DOMAIN # | grep "has address" 
+		host $i.$DOMAIN | grep ".$DOMAIN has address"
 	done  < .dns
 }
 func_brute
